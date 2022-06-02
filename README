@@ -1,0 +1,9 @@
+Componente proiect "Interconectarea caselor inteligente cu WireGuard"
+
+Trebuie modificate credentialele pentru conexiunea la WiFi, MAC-ul Xiaomi
+Mijia, dupa ce a fost flashed firmware-ul PVXX si datele peer-ului WireGuard.
+
+docker-compose.yml -> rulat pe Raspberry Pi pentru setup HA, esphome si WireGuard
+mqtt_esp32.ino -> codul pentru serverul MQTT de pe ESP32
+xiaomi.yaml -> YAML pentru integrarea Xiaomi Mijia pe ESP32 cu esphome
+wg-settings.h -> config pentru WireGuard pe ESP32, folosit in xiaomi.yaml

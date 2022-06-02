@@ -1,0 +1,41 @@
+version: "3.5"
+ 
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - "TZ=Europe/Bucharest"
+    volumes:
+      - /root/config:/config
+  esphome:
+    container_name: esphome
+    image: esphome/esphome
+    restart: always
+    network_mode: host
+    privileged: true
+    environment:
+      - "TZ=Europe/Bucharest"
+    volumes:
+      - /root/config-esphome:/config
+      - /etc/localtime:/etc/localtime:ro
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /root/config-wg:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 88888:88888/udp
+    network_mode: host
+    restart: unless-stopped

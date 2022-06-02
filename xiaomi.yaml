@@ -1,0 +1,52 @@
+esphome:
+  name: livingroom
+  libraries: ciniml/WireGuard-ESP32
+  includes: wg-settings.h
+
+esp32:
+  board: nodemcu-32s
+  framework:
+    type: arduino
+
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+esp32_ble_tracker:
+
+wifi:
+  ssid: "XXXXXXX"
+  password: "XXXXXXXXXX"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Livingroom Fallback Hotspot"
+    password: "GQFqViMOwgsq"
+
+sensor:
+  - platform: pvvx_mithermometer
+    mac_address: "FF:FF:FF:FF:FF:FF"
+    temperature:
+      name: "PVVX Temperature"
+    humidity:
+      name: "PVVX Humidity"
+    battery_level:
+      name: "PVVX Battery-Level"
+      
+time:  
+  - platform: sntp
+    on_time_sync:
+        then:
+        - logger.log: "Starting wireguard..."
+        - lambda: |
+            wg.begin(local_ip,private_key,endpoint_address,public_key,endpoint_port);
+
+captive_portal:
+    
